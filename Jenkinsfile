@@ -1,30 +1,35 @@
 pipeline {
     agent any
+    
     stages {
         stage('Build') {
             steps {
-                // Placeholder: Compile your code here
-                echo 'Compiling code...'
+                echo 'Building...'
+                // Add commands to build your project here
             }
         }
         stage('Test') {
             steps {
-                // Placeholder: Run tests here
-                echo 'Running tests...'
+                echo 'Testing...'
+                // Add commands to test your project here
             }
         }
         stage('Deploy') {
             steps {
-                // Placeholder: Deploy artifacts here
-                error added 
                 echo 'Deploying...'
+                // Add commands to deploy your project here
             }
         }
     }
+    
     post {
-        always {
-            // Display 'pipeline failed' message in case of any errors
+        success {
+            echo 'Pipeline succeeded'
+            // Add any actions to take on successful completion
+        }
+        failure {
             echo 'Pipeline failed'
+            // Add any actions to take on failure
         }
     }
 }
