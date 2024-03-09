@@ -1,37 +1,30 @@
 pipeline {
     agent any
-    
     stages {
         stage('Build') {
             steps {
-                script {
-                    // Compile the .cpp file using a shell script
-                    sh 'g++ -o task5 task5.cpp'
-                }
+                // Placeholder: Compile your code here
+                echo 'Compiling code...'
             }
         }
         stage('Test') {
             steps {
-                script {
-                    // Print output of .cpp file using a shell script
-                    sh './task5'
-                }
+                // Placeholder: Run tests here
+                echo 'Running tests...'
             }
         }
         stage('Deploy') {
             steps {
-                script {
-                    // Add deployment steps here if needed
-                    echo 'Deployment not implemented yet'
-                }
+                // Placeholder: Deploy artifacts here
+                error added 
+                echo 'Deploying...'
             }
         }
     }
-    
     post {
-        failure {
-            echo 'pipeline failed'
-            // Add any actions to take on failure
+        always {
+            // Display 'pipeline failed' message in case of any errors
+            echo 'Pipeline failed'
         }
     }
 }
