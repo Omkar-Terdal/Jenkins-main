@@ -1,52 +1,50 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:14'
-    }
-  }
-  stages {
-    stage('Clone repository') {
-      steps {
-        git branch: 'main',
-        url: 'https://github.com/Omkar-Terdal/Jenkins-main.git'
-      }
-    }
-    stage('Install dependencies') {
-      // Assuming no dependencies for this example, remove if needed
-      // steps {
-      //   sh 'npm install'  // Replace with your actual dependency installation command
-      // }
-    }
-    stage('Build application') {
-      steps {
-        script {
-          // Compile the .cpp file using a shell script
-          sh """
-          # Assuming your .cpp file is named main.cpp
-          g++ task5.cpp -o PES1UG22CS825-1  # Replace with your actual .cpp filename
-          """
-          if (shExitCode != 0) {
-            error 'Compilation failed!'
-          }
+    // Use a dedicated agent block with desired executor configuration
+    agent any
+
+    stages {
+        // Stage for cloning the repository
+     //  stage('Clone repository') {
+      //      steps {
+       //         // Use checkout step with proper configuration
+        //        checkout([
+         //           $class: 'GitSCM',
+           //         branches: [[name: 'main']], // Assuming you want the main branch
+             //       userRemoteConfigs: [[url: 'https://github.com/Jatinsharma159/Jenkins.git']]
+             //   ])
+            //}
+        //}
+
+        // Stage for building the application
+        stage('Build') {
+            steps {
+                // Use sh for shell commands with proper syntax\
+                build 'PES1UG22CS825-1'
+                sh 'g++ task5.cpp -o output' // Output filename should be in quotes
+            }
         }
-      }
-    }
-    stage('Test application') {
-      steps {
-        script {
-          // Print the output of the compiled program using a shell script
-          sh """
-          ./YOUR_SRN-1  # Replace with your actual executable filename
-          """
+
+        // Stage for testing the application
+        stage('Test') {
+            steps {
+                // Execute the compiled program (assuming output is the executable)
+                sh './output'
+            }
         }
-      }
+
+        // Stage for deployment (add specific deployment commands here)
+        stage('Deploy') {
+            steps {
+                // Replace with actual deployment commands (e.g., scp, rsync)
+                echo 'Deployment logic goes here' // Placeholder for deployment steps
+            }
+        }
     }
-    stage('Push Docker image') {
-      // Assuming no Docker image building for this example, remove if needed
-      // steps {
-      //   sh 'docker build -t <user>/<image>:$BUILD_NUMBER.'
-      //   sh 'docker push <user>/<image>:$BUILD_NUMBER'
-      // }
+
+    // Post section for handling pipeline failures
+    post {
+        failure {
+            error 'Pipeline failed'
+        }
     }
-  }
 }
