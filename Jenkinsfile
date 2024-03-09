@@ -1,29 +1,30 @@
 pipeline {
     agent any
-    
     stages {
         stage('Build') {
             steps {
-                script {
-                    try {
-                        sh 'make build'
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        echo "Build failed: ${e.message}"
-                        error("Build failed: ${e.message}")
-                    }
-                }
+                // Placeholder: Compile your code here
+                echo 'Compiling code...'
             }
         }
-        // Add additional stages for test and deploy as needed
+        stage('Test') {
+            steps {
+                // Placeholder: Run tests here
+                echo 'Running tests...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Placeholder: Deploy artifacts here
+                error added 
+                echo 'Deploying...'
+            }
+        }
     }
-    
     post {
         always {
-            echo "Pipeline completed with result: ${currentBuild.result}"
-            if (currentBuild.result == 'FAILURE') {
-                echo 'pipeline failed'
-            }
+            // Display 'pipeline failed' message in case of any errors
+            echo 'Pipeline failed'
         }
     }
 }
