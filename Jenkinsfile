@@ -4,27 +4,26 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Add build steps here
-                sh 'make build'
+                script {
+                    try {
+                        sh 'make build'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        echo "Build failed: ${e.message}"
+                        error("Build failed: ${e.message}")
+                    }
+                }
             }
         }
-        stage('Test') {
-            steps {
-                // Add test steps here
-                sh 'make test'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                // Add deployment steps here
-                sh 'make deploy'
-            }
-        }
+        // Add additional stages for test and deploy as needed
     }
     
     post {
-        failure {
-            echo 'pipeline failed'
+        always {
+            echo "Pipeline completed with result: ${currentBuild.result}"
+            if (currentBuild.result == 'FAILURE') {
+                echo 'pipeline failed'
+            }
         }
     }
 }
