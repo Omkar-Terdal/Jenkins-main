@@ -20,7 +20,7 @@ pipeline {
             steps {
                 // Use sh for shell commands with proper syntax\
                 build 'PES1UG22CS825-1'
-                sh 'g++ task5.cpp -o output' // Output filename should be in quotes
+                sh 'g++ task5.cpp -o task5' // Output filename should be in quotes
             }
         }
 
@@ -28,7 +28,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Execute the compiled program (assuming output is the executable)
-                sh './output'
+                sh './task5'
             }
         }
 
@@ -36,7 +36,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Replace with actual deployment commands (e.g., scp, rsync)
-                echo 'Deployment logic goes here' // Placeholder for deployment steps
+                echo 'deploy' // Placeholder for deployment steps
             }
         }
     }
