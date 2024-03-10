@@ -1,50 +1,34 @@
 pipeline {
-    // Use a dedicated agent block with desired executor configuration
     agent any
 
     stages {
-        // Stage for cloning the repository
-     //  stage('Clone repository') {
-      //      steps {
-       //         // Use checkout step with proper configuration
-        //        checkout([
-         //           $class: 'GitSCM',
-           //         branches: [[name: 'main']], // Assuming you want the main branch
-             //       userRemoteConfigs: [[url: 'https://github.com/Jatinsharma159/Jenkins.git']]
-             //   ])
-            //}
-        //}
-
-        // Stage for building the application
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Omkar-Terdal/Jenkins-main.git' 
+            }
+        }
         stage('Build') {
             steps {
-                // Use sh for shell commands with proper syntax\
                 build 'PES1UG22CS825-1'
-                sh 'g++ task5.cpp -o task5' // Output filename should be in quotes
+                sh 'g++ working.cpp -o output'
             }
         }
-
-        // Stage for testing the application
         stage('Test') {
             steps {
-                // Execute the compiled program (assuming output is the executable)
-                sh './task5'
+                sh './output'
             }
         }
-
-        // Stage for deployment (add specific deployment commands here)
         stage('Deploy') {
             steps {
-                // Replace with actual deployment commands (e.g., scp, rsync)
-                echo 'deploy' // Placeholder for deployment steps
+                echo 'deploy'
             }
         }
     }
 
-    // Post section for handling pipeline failures
     post {
         failure {
-            error 'Pipeline failed'
+            echo 'Pipeline failed!'
         }
     }
 }
